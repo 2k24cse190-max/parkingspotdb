@@ -113,6 +113,90 @@ router.post(
 );
 
 
+/* EXTEND SESSION */
+
+router.patch(
+  "/:id/extend",
+  async (req, res) => {
+
+    try {
+
+      const { minutes } = req.body;
+
+      if (!minutes || Number(minutes) <= 0) {
+
+        return res.status(400).json({
+          message: "Invalid extension time"
+        });
+
+      }
+
+      const session =
+        await Session.findById(
+          req.params.id
+        );
+
+      if (!session) {
+
+        return res.status(404).json({
+          message: "Session not found"
+        });
+
+      }
+
+      if (session.status !== "active") {
+
+        return res.status(400).json({
+          message: "Session is not active"
+        });
+
+      }
+
+      /* 
+         IMPORTANT:
+         Add the extra time to the
+         EXISTING expiry time.
+      */
+
+      const currentExpiry =
+        new Date(session.expiryTime);
+
+      const newExpiry =
+        new Date(
+          currentExpiry.getTime() +
+          Number(minutes) * 60 * 1000
+        );
+
+      session.expiryTime =
+        newExpiry;
+
+      await session.save();
+
+      res.json({
+        success: true,
+        message:
+          `Session extended by ${minutes} minutes`,
+        data: session
+      });
+
+    } catch (error) {
+
+      console.error(
+        "Extend session error:",
+        error
+      );
+
+      res.status(500).json({
+        message:
+          "Unable to extend session"
+      });
+
+    }
+
+  }
+);
+
+
 /* END SESSION */
 
 router.patch(
@@ -179,5 +263,6 @@ router.patch(
 
   }
 );
+
 
 export default router;
