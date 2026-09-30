@@ -27,7 +27,7 @@ export default function History() {
    */
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/reservations")
+    fetch(`${import.meta.env.VITE_API_URL}/reservations`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to load booking history");
