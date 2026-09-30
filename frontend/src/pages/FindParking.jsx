@@ -76,7 +76,7 @@ function FindParking() {
 
   useEffect(() => {
 
-    fetch("http://localhost:5000/api/parking")
+    fetch(`${import.meta.env.VITE_API_URL}/parking`)
 
       .then((response) => {
 

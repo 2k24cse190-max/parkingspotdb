@@ -23,8 +23,8 @@ export default function Analytics() {
 
         // Reservations
         const reservationResponse = await fetch(
-          "http://localhost:5000/api/reservations"
-        );
+  `${import.meta.env.VITE_API_URL}/reservations`
+);
 
         if (!reservationResponse.ok) {
           throw new Error("Failed to fetch reservations");

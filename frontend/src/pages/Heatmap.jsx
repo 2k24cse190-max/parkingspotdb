@@ -29,8 +29,8 @@ function Heatmap() {
         setLoading(true);
 
         const response = await fetch(
-          "http://localhost:5000/api/parking"
-        );
+  `${import.meta.env.VITE_API_URL}/parking`
+);
 
         if (!response.ok) {
           throw new Error("Failed to fetch parking data");

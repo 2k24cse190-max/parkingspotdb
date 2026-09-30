@@ -135,9 +135,9 @@ function Payment() {
           ? "Card"
           : "Wallet";
 
-      const response = await fetch(
-        "http://localhost:5000/api/payments",
-        {
+      const paymentResponse = await fetch(
+  `${import.meta.env.VITE_API_URL}/payments`
+);clearImmediate
           method: "POST",
           headers: {
             "Content-Type": "application/json"
